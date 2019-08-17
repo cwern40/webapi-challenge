@@ -45,6 +45,19 @@ router.post('/', (req, res) => {
         })
 })
 
+router.put('/:id', validateProjectId, (req, res) => {
+    Projects.update(req.params.id, req.body)
+        .then(update => {
+            res.status(200).json(update)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: 'error updating user'
+            })
+        })
+})
+
 function validateProjectId(req, res, next) {
     const { id } = req.params;
 
