@@ -30,6 +30,19 @@ router.get('/:id', validateActionId, (req, res) => {
         })
 })
 
+router.post('/', (req, res) => {
+    Actions.insert(req.body)
+        .then(newAction => {
+            res.status(201).json(newAction)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: 'error creating action'
+            })
+        })
+})
+
 function validateActionId(req, res, next) {
     const { id } = req.params;
 
