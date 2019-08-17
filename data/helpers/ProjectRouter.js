@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateProjectId, (req, res) => {
     const { id } = req.params
 
     Projects.get(id)
@@ -31,5 +31,27 @@ router.get('/:id', (req, res) => {
             })
         })
 })
+
+function validateProjectId(req, res, next) {
+    const { id } = req.params;
+
+    Projects.get(id)
+        .then(project => {
+            if (project) {
+                req.project = project
+                next();
+            } else {
+                res.status(404).json({
+                    message: 'Invalid project id'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                message: 'error processing the request'
+            })
+        })
+}
 
 module.exports = router;
