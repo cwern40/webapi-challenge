@@ -32,6 +32,19 @@ router.get('/:id', validateProjectId, (req, res) => {
         })
 })
 
+router.post('/', (req, res) => {
+    Projects.insert(req.body)
+        .then(newProject => {
+            res.status(201).json(newProject);
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: 'error creating project'
+            })
+        })
+})
+
 function validateProjectId(req, res, next) {
     const { id } = req.params;
 
