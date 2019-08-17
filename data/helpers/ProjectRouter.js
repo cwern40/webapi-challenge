@@ -58,6 +58,21 @@ router.put('/:id', validateProjectId, (req, res) => {
         })
 })
 
+router.delete('/:id', validateProjectId, (req, res) => {
+    Projects.remove(req.params.id)
+        .then(remove => {
+            res.status(200).json({
+                message: `${remove} project(s) was removed`
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: 'error removing the project'
+            })
+        })
+})
+
 function validateProjectId(req, res, next) {
     const { id } = req.params;
 
