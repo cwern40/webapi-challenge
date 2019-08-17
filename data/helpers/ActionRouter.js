@@ -30,7 +30,7 @@ router.get('/:id', validateActionId, (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateActionInfo, (req, res) => {
     Actions.insert(req.body)
         .then(newAction => {
             res.status(201).json(newAction)
@@ -39,6 +39,19 @@ router.post('/', (req, res) => {
             console.log(err)
             res.status(500).json({
                 error: 'error creating action'
+            })
+        })
+})
+
+router.put('/:id', validateActionId, validateActionInfo, (req, res) => {
+    Actions.update(req.params.id, req.body)
+        .then(update => {
+            res.status(200).json(update)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: "error updating action"
             })
         })
 })
@@ -63,6 +76,28 @@ function validateActionId(req, res, next) {
                 message: 'error processing the request'
             })
         })
+}
+
+function validateActionInfo (req, res, next) {
+    if (!req.body || !Object.keys(req.body).length > 0) {
+        res.status(400).json({
+            message: 'missing action data'
+        })
+    } else if (!req.body.project_id) {
+        res.status(400).json({
+            message: 'missing project id field'
+        })
+    } else if (!req.body.description) {
+        res.status(400).json({
+            message: 'missing description field'
+        })
+    } else if (!req.body.notes) {
+        res.status(400).json({
+            message: 'missing notes field'
+        })
+    } else {
+        next()
+    }
 }
 
 module.exports = router;
