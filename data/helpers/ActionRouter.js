@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
         })
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateActionId, (req, res) => {
     Actions.get(req.params.id)
         .then(action => {
             res.status(200).json(action)
@@ -29,5 +29,27 @@ router.get('/:id', (req, res) => {
             })
         })
 })
+
+function validateActionId(req, res, next) {
+    const { id } = req.params;
+
+    Actions.get(id)
+        .then(action => {
+            if (action) {
+                req.action = action
+                next();
+            } else {
+                res.status(404).json({
+                    message: 'Invalid action id'
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                message: 'error processing the request'
+            })
+        })
+}
 
 module.exports = router;
