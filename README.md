@@ -26,13 +26,25 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+Express router. Which allows you to break an application into parts based on the route which makes it more organized.
+
+Express middleware. Allows you to add more features to the application like logging requests.
+
 - [ ] Describe Middleware?
+
+Middleware are functions that we can introduce to the server by using the .use() function.
 
 - [ ] Describe a Resource?
 
+a resource is a collection of data on a server accessed through an endpoint.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+HTTP status code
+
 - [ ] How can we partition our application into sub-applications?
+
+By using server-side routing
 
 ## Project Setup
 
