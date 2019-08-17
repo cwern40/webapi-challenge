@@ -45,7 +45,7 @@ router.get('/:id/actions', validateProjectId, (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateProjectInfo, (req, res) => {
     Projects.insert(req.body)
         .then(newProject => {
             res.status(201).json(newProject);
@@ -106,6 +106,24 @@ function validateProjectId(req, res, next) {
                 message: 'error processing the request'
             })
         })
+}
+
+function validateProjectInfo (req, res, next) {
+    if (!req.body || !Object.keys(req.body).length > 0) {
+        res.status(400).json({
+            message: 'missing project data'
+        })
+    } else if (!req.body.name) {
+        res.status(400).json({
+            message: 'missing name field'
+        })
+    } else if (!req.body.description) {
+        res.status(400).json({
+            message: 'missing description field'
+        })
+    } else {
+        next()
+    }
 }
 
 module.exports = router;
