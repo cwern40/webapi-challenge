@@ -32,6 +32,19 @@ router.get('/:id', validateProjectId, (req, res) => {
         })
 })
 
+router.get('/:id/actions', validateProjectId, (req, res) => {
+    Projects.getProjectActions(req.params.id)
+        .then(actions => {
+            res.status(200).json(actions)
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({
+                error: 'error retrieving actions'
+            })
+        })
+})
+
 router.post('/', (req, res) => {
     Projects.insert(req.body)
         .then(newProject => {
