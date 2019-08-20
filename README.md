@@ -32,7 +32,7 @@ Express middleware. Allows you to add more features to the application like logg
 
 - [ ] Describe Middleware?
 
-Middleware are functions that we can introduce to the server by using the .use() function.
+Middleware are functions that we can introduce to the server by using the .use() function. Middleware runs between the server and the user. In the case of a logger type of middleware then when the response is sent from the user it passes through the middleware first, where it is logged, and then goes to the server.
 
 - [ ] Describe a Resource?
 
